@@ -1080,7 +1080,7 @@ local function CreateMenuFrame()
 		SUCC_bag.bank.slotFrame:SetBackdropColor(r, g, b)
 	end
 
-	menu.item = color('SBC_itemColor', 'Item border', SUCC_bagOptions.colors.bag.Bag, menu.border, 1)
+	menu.item = color('SBC_itemColor', 'Item border', SUCC_bagOptions.colors.bag[localizedBagNames['Bag']], menu.border, 1)
 	menu.item.func = function(r, g, b)
 		SUCC_bagOptions.colors.bag.Bag = {r, g, b}
 		if SUCC_bag:IsVisible() then FrameUpdate(SUCC_bag) end
