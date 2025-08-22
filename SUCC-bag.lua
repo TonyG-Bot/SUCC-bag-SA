@@ -957,7 +957,7 @@ end
 local function SetColumns()
 	local l, n = this:GetValue(), string.sub(this:GetName(), 5, -8)
 	SUCC_bagOptions.layout.columns[n] = l
-	if n == localizedBagNames['Bag'] then FrameLayout(SUCC_bag, l) else FrameLayout(SUCC_bag.bank, l) end
+	if n == 'bolsa' or n == 'bag' then FrameLayout(SUCC_bag, l) else FrameLayout(SUCC_bag.bank, l) end
 end
 
 local function SetColor()
