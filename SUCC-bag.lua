@@ -17,6 +17,39 @@ local function sortItems(where, reversed)
 	end
 end
 
+local function initializeLocalization()
+        local locale = GetLocale() or "enUS"
+        local localizedBagNames = {}
+
+		if locale == "esES" then
+
+			localizedBagNames = {
+				['Bag'] = 'Bolsa',
+				['Soul Bag'] = 'Bolsa de Almas',
+				['Herb Bag'] = 'Bolsa de Hierbas',
+				['Enchanting Bag'] = 'Bolsa de Encantamiento',
+				['Quest'] = 'Misión',
+				['Quiver'] = 'Carcaj',
+				['Mark of Honor'] = 'Marca de Honor',
+			}
+		else
+			-- enUS
+			localizedBagNames = {
+				['Bag'] = 'Bag',
+				['Soul Bag'] = 'Soul Bag',
+				['Herb Bag'] = 'Herb Bag',
+				['Enchanting Bag'] = 'Enchanting Bag',
+				['Quest'] = 'Quest',
+				['Quiver'] = 'Quiver',
+				['Mark of Honor'] = 'Mark of Honor',
+			}
+		end
+
+		return localizedBagNames
+	end
+
+	local localizedBagNames = initializeLocalization()
+
 local function SUCC_bagDefaults()
 	SUCC_bagOptions = {}
 	SUCC_bagOptions.colors = {}
@@ -27,10 +60,10 @@ local function SUCC_bagDefaults()
 	SUCC_bagOptions.colors.border = {1, 1, 1}
 	SUCC_bagOptions.colors.backdrop = {0.3, 0.3, 0.3}
 	SUCC_bagOptions.colors.bag = {}
-	SUCC_bagOptions.colors.bag['Bag'] = {0.3, 0.3, 0.3}
-	SUCC_bagOptions.colors.bag['Soul Bag'] = {0.678, 0.549, 1}
-	SUCC_bagOptions.colors.bag['Herb Bag'] = {0.3, 0.8, 0.3}
-	SUCC_bagOptions.colors.bag['Enchanting Bag'] = {0.5, 0.4, 0.8}
+	SUCC_bagOptions.colors.bag[localizedBagNames['Bag']] = {0.3, 0.3, 0.3}
+	SUCC_bagOptions.colors.bag[localizedBagNames['Soul Bag']] = {0.678, 0.549, 1}
+	SUCC_bagOptions.colors.bag[localizedBagNames['Herb Bag']] = {0.3, 0.8, 0.3}
+	SUCC_bagOptions.colors.bag[localizedBagNames['Enchanting Bag']] = {0.5, 0.4, 0.8}
 	SUCC_bagOptions.colors.override = false
 	SUCC_bagOptions.layout = {}
 	SUCC_bagOptions.layout.spacing = 4
@@ -190,14 +223,14 @@ local function BagType (bagID)
 		if(link) then
 			local _, _, id = string.find(link, "item:(%d+)")
 			local _, _, _, _, itemType, subType = GetItemInfo(id)
-			if itemType == 'Quiver' then
+			if itemType == localizedBagNames['Quiver'] then
 				return SUCC_bagOptions.colors.ammo
 			else
-				return SUCC_bagOptions.colors.bag[subType], subType == 'Bag'
+				return SUCC_bagOptions.colors.bag[subType], subType == localizedBagNames['Bag']
 			end
 		end
 	end
-	return SUCC_bagOptions.colors.bag.Bag, true
+	return SUCC_bagOptions.colors.bag[localizedBagNames['Bag']], true
 end
 
 local function ItemUpdateBorder(button, option)
@@ -211,10 +244,10 @@ local function ItemUpdateBorder(button, option)
 			if link then
 				local _, _, id = string.find(link, "item:(%d+)")
 				local n, _, q, _, _, t = GetItemInfo(id)
-				if n ~= nil and string.find(n, 'Mark of Honor') then
+				if n ~= nil and string.find(n, localizedBagNames['Mark of Honor']) then
 					button:GetNormalTexture():SetVertexColor(unpack(SUCC_bagOptions.colors.BG))
 					return
-				elseif t == 'Quest' then
+				elseif t == localizedBagNames['Quest']' then
 					button:GetNormalTexture():SetVertexColor(unpack(SUCC_bagOptions.colors.quest))
 					return
 				elseif q ~= nil and q > 1 then
@@ -568,7 +601,7 @@ local function Essentials(frame)
 	frame.title = frame:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
 	frame.title:SetPoint('TOPLEFT', frame, 11, -6)
 	frame.title.t = string.sub(t, 9, -1)
-	frame.title:SetText(frame.title.t ~= '' and frame.title.t ~= nil and frame.title.t or 'Bag')
+	frame.title:SetText(frame.title.t ~= '' and frame.title.t ~= nil and frame.title.t or localizedBagNames['Bag'])
 	if frame.slotFrame then
 		SlotFrameSetup(frame)
 		frame.toggleButton = CreateFrame('Button', t .. 'ToggleButton', frame)
@@ -918,7 +951,7 @@ end
 local function SetColumns()
 	local l, n = this:GetValue(), string.sub(this:GetName(), 5, -8)
 	SUCC_bagOptions.layout.columns[n] = l
-	if n == 'bag' then FrameLayout(SUCC_bag, l) else FrameLayout(SUCC_bag.bank, l) end
+	if n == localizedBagNames['Bag'] then FrameLayout(SUCC_bag, l) else FrameLayout(SUCC_bag.bank, l) end
 end
 
 local function SetColor()
@@ -1076,23 +1109,23 @@ local function CreateMenuFrame()
 		if SUCC_bag.bank:IsVisible() then FrameUpdate(SUCC_bag.bank) end
 	end
 
-	menu.soul = color('SBC_soulColor', 'Soul bag', SUCC_bagOptions.colors.bag['Soul Bag'], menu.highlight, 1)
+	menu.soul = color('SBC_soulColor', localizedBagNames['Soul Bag'], SUCC_bagOptions.colors.bag[localizedBagNames['Soul Bag']], menu.highlight, 1)
 	menu.soul.func = function(r, g, b)
-		SUCC_bagOptions.colors.bag['Soul Bag'] = {r, g, b}
+		SUCC_bagOptions.colors.bag[localizedBagNames['Soul Bag']] = {r, g, b}
 		if SUCC_bag:IsVisible() then FrameUpdate(SUCC_bag) end
 		if SUCC_bag.bank:IsVisible() then FrameUpdate(SUCC_bag.bank) end
 	end
 
-	menu.herb = color('SBC_herbColor', 'Herb bag', SUCC_bagOptions.colors.bag['Herb Bag'], menu.soul)
+	menu.herb = color('SBC_herbColor', localizedBagNames['Herb Bag'], SUCC_bagOptions.colors.bag[localizedBagNames['Herb Bag']], menu.soul)
 	menu.herb.func = function(r, g, b)
-		SUCC_bagOptions.colors.bag['Herb Bag'] = {r, g, b}
+		SUCC_bagOptions.colors.bag[localizedBagNames['Herb Bag']] = {r, g, b}
 		if SUCC_bag:IsVisible() then FrameUpdate(SUCC_bag) end
 		if SUCC_bag.bank:IsVisible() then FrameUpdate(SUCC_bag.bank) end
 	end
 
-	menu.enchanting = color('SBC_enchantingColor', 'Enchanting', SUCC_bagOptions.colors.bag['Enchanting Bag'], menu.soul, 1)
+	menu.enchanting = color('SBC_enchantingColor', 'Enchanting', SUCC_bagOptions.colors.bag[localizedBagNames['Enchanting Bag']], menu.soul, 1)
 	menu.enchanting.func = function(r, g, b)
-		SUCC_bagOptions.colors.bag['Enchanting Bag'] = {r, g, b}
+		SUCC_bagOptions.colors.bag[localizedBagNames['Enchanting Bag']] = {r, g, b}
 		if SUCC_bag:IsVisible() then FrameUpdate(SUCC_bag) end
 		if SUCC_bag.bank:IsVisible() then FrameUpdate(SUCC_bag.bank) end
 	end
