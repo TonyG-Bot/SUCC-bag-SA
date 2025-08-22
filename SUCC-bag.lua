@@ -31,6 +31,9 @@ local function initializeLocalization()
 				['Quest'] = 'Misión',
 				['Quiver'] = 'Carcaj',
 				['Mark of Honor'] = 'Marca de Honor',
+				['Bag Columns'] = 'Columnas de Bolsa',
+				['Bank Columns'] = 'Columnas del Banco',
+				['Item spacing'] = 'Espaciado de Ítems',
 			}
 		else
 			-- enUS
@@ -42,6 +45,9 @@ local function initializeLocalization()
 				['Quest'] = 'Quest',
 				['Quiver'] = 'Quiver',
 				['Mark of Honor'] = 'Mark of Honor',
+				['Bag Columns'] = 'Bag Columns',
+				['Bank Columns'] = 'Bank Columns',
+				['Item spacing'] = 'Item spacing',
 			}
 		end
 
@@ -1043,14 +1049,14 @@ local function CreateMenuFrame()
 	menu.bag = {}
 	menu.bank = {}
 
-	menu.bag.columns = slider('SBC_bagColumns', {'Bag Columns', '4', '32'}, {4, 32}, {SUCC_bagOptions.layout.columns.bag, 1})
+	menu.bag.columns = slider('SBC_bagColumns', {localizedBagNames['Bag Columns'], '4', '32'}, {4, 32}, {SUCC_bagOptions.layout.columns.bag, 1})
 	menu.bag.columns:SetPoint('TOPLEFT', menu, 35, -45)
 	menu.bag.columns:SetScript('OnValueChanged', SetColumns)
 
-	menu.bank.columns = slider('SBC_bankColumns', {'Bank Columns', '4', '32'}, {4, 32}, {SUCC_bagOptions.layout.columns.bank, 1}, menu.bag.columns)
+	menu.bank.columns = slider('SBC_bankColumns', {localizedBagNames['Bank Columns'], '4', '32'}, {4, 32}, {SUCC_bagOptions.layout.columns.bank, 1}, menu.bag.columns)
 	menu.bank.columns:SetScript('OnValueChanged', SetColumns)
 
-	menu.spacing = slider('SBC_itemSpacing', {'Item spacing', '0', '20'}, {0, 20}, {SUCC_bagOptions.layout.spacing, 1}, menu.bag.columns, 1)
+	menu.spacing = slider('SBC_itemSpacing', {localizedBagNames['Item spacing'], '0', '20'}, {0, 20}, {SUCC_bagOptions.layout.spacing, 1}, menu.bag.columns, 1)
 	menu.spacing:SetScript('OnValueChanged', function()
 		local l, n = this:GetValue(), string.sub(this:GetName(), 1, -8)
 		SUCC_bagOptions.layout.spacing = l
