@@ -247,7 +247,7 @@ local function ItemUpdateBorder(button, option)
 				if n ~= nil and string.find(n, localizedBagNames['Mark of Honor']) then
 					button:GetNormalTexture():SetVertexColor(unpack(SUCC_bagOptions.colors.BG))
 					return
-				elseif t == localizedBagNames['Quest']' then
+				elseif t == localizedBagNames['Quest'] then
 					button:GetNormalTexture():SetVertexColor(unpack(SUCC_bagOptions.colors.quest))
 					return
 				elseif q ~= nil and q > 1 then
