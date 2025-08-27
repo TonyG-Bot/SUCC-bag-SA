@@ -851,7 +851,7 @@ SUCC_bag = CreateFrame('Frame', 'SUCC_bag', UIParent)
 SUCC_bag:RegisterEvent('ADDON_LOADED')
 SUCC_bag:SetScript('OnEvent', OnEvent)
 SUCC_bag:SetScript('OnShow', function()
-	PlaySound('igInventoryOepn')
+	PlaySound('igInventoryOpen')
 end)
 SUCC_bag:SetScript('OnHide', function()
     for slot=1, (SUCC_bag.size or 0) do
